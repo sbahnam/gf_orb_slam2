@@ -73,7 +73,7 @@ using namespace Eigen;
 // #define SPARSE_KEYFRAME_COND
 
 /* --- options of enabling anticipation in motion-based tracking --- */
-#define PRED_WITH_ODOM
+// #define PRED_WITH_ODOM
 
 /* --- options to priortize feature matching wrt local map --- */
 #ifndef ORB_SLAM_BASELINE

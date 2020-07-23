@@ -54,17 +54,17 @@ LocalMapping::LocalMapping(Map *pMap, const float bMonocular) : mbMonocular(bMon
     /*----------------- Stereo -----------------*/
     //
     // prior coeffients for EuRoC sequences
-    // mParam.coe_a = -4.626365363955979e-04; // -2.762403356776874e-04;
-    // mParam.coe_b = 0.122198203669508; // 0.109476983548765;
-    // mParam.coe_c = -0.203900111858952; // -0.162915402955300;
-    // mParam.coe_d = 75.720220172857170; // 71.289612325498380;
+    mParam.coe_a = -4.626365363955979e-04; // -2.762403356776874e-04;
+    mParam.coe_b = 0.122198203669508; // 0.109476983548765;
+    mParam.coe_c = -0.203900111858952; // -0.162915402955300;
+    mParam.coe_d = 75.720220172857170; // 71.289612325498380;
 
     //
     // prior coeffients for EuRoC sequences on Jetson TX2
-    mParam.coe_a = 0.00178178408800715;
-    mParam.coe_b = -0.151759389787934;
-    mParam.coe_c = 23.5952776017384;
-    mParam.coe_d = 14.8044507431834;
+    // mParam.coe_a = 0.00178178408800715;
+    // mParam.coe_b = -0.151759389787934;
+    // mParam.coe_c = 23.5952776017384;
+    // mParam.coe_d = 14.8044507431834;
 
     //
     // prior coeffients for FPV sequences

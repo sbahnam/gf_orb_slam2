@@ -58,7 +58,7 @@
 
 
 // For anticipation in good graph
-#define ENABLE_ANTICIPATION_IN_GRAPH
+// #define ENABLE_ANTICIPATION_IN_GRAPH
 
 
 #ifdef ENABLE_ANTICIPATION_IN_GRAPH
