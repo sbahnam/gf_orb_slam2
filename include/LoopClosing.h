@@ -33,7 +33,7 @@
 #include <mutex>
 #include "Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h"
 
-//#define DISABLE_LOOP_CLOSURE
+#define DISABLE_LOOP_CLOSURE
 
 namespace ORB_SLAM2
 {
@@ -47,7 +47,7 @@ class LoopClosing
 public:
     typedef pair<set<KeyFrame *>, int> ConsistentGroup;
     typedef map<KeyFrame *, g2o::Sim3, std::less<KeyFrame *>,
-                Eigen::aligned_allocator<std::pair<const KeyFrame *, g2o::Sim3>>>
+                Eigen::aligned_allocator<std::pair<KeyFrame* const, g2o::Sim3>>>
         KeyFrameAndPose;
 
 public:
