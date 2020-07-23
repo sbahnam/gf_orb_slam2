@@ -19,7 +19,7 @@ SeqNameList = ['MH_01_easy', 'MH_02_easy', 'MH_03_medium', 'MH_04_difficult', 'M
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_Covis_Stereo_preP_Speedx'
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_BaseBA_Stereo_preP_Speedx'
 
-Result_root = '/mnt/DATA/tmp/EuRoC/GF_GGraph_Stereo_Speedx'
+Result_root = '/home/pi/results_gf_orbslam/EuRoC/'
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_SWF_Stereo_Speedx'
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_Covis_Stereo_Speedx'
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_BaseBA_Stereo_Speedx'
@@ -35,7 +35,7 @@ Playback_Rate_List = [1.0, 2.0, 3.0, 4.0, 5.0]; # [1.0, 3.0, 5.0] #
 Number_GF_List = [130]; # [160]; 
 # Number_GF_List = [80, 100, 130, 160]; # [80, 100, 130, 160, 200, 240, 280, 320, 360]; #  
 
-Num_Repeating = 10 # 1 # 
+Num_Repeating = 1 # 1 # 
 # SleepTime = 2 # 10 # 25
 
 #----------------------------------------------------------------------------------------------------------------------
@@ -69,14 +69,14 @@ for pi, rate in enumerate(Playback_Rate_List):
                 SeqName = SeqNameList[sn]
                 print bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName
 
-                File_Setting = '../../ORB_Data/EuRoC_yaml/EuRoC_stereo_lmk800.yaml'
+                File_Setting = '../ORB_Data/EuRoC_yaml/EuRoC_stereo_lmk800.yaml'
                 # File_Setting = '../../ORB_Data/EuRoC_yaml/EuRoC_stereo_lmk800_lvl3.yaml'
 
                 # File_Vocab   = '../../ORB_Data/ORBvoc.txt'
-                File_Vocab  = '../../ORB_Data/ORBvoc.bin'
+                File_Vocab  = '../ORB_Data/ORBvoc.bin'
 
-                Path_Image  = '/mnt/DATA/Datasets/EuRoC_dataset/' + SeqName + '/'
-                File_plan   = '../../ORB_Data/EuRoC_POSE_GT/' + SeqName + '_cam0.txt'
+                Path_Image  = '/home/pi/EuRoC_dataset/euroc/' + SeqName + '/mav0'
+                File_plan   = '../ORB_Data/EuRoC_POSE_GT/' + SeqName + '_cam0.txt'
                 File_traj   = Experiment_dir + '/' + SeqName
                 File_map    = File_traj + '_map'
 
