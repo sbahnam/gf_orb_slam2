@@ -67,7 +67,7 @@ using namespace Eigen;
 
 /* --- options of baseline methods --- */
 // #define ORB_SLAM_BASELINE
-// #define DISABLE_RELOC
+#define DISABLE_RELOC
 
 /* --- options of key-frame insert condition --- */
 // #define SPARSE_KEYFRAME_COND

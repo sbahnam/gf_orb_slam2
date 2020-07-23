@@ -50,7 +50,7 @@
 
 
 // For FAST keypoints reuse
-#define ENABLE_DETECTION_IO
+//#define ENABLE_DETECTION_IO
 
 
 // For map reuse and update
