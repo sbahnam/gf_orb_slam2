@@ -196,24 +196,24 @@ ENDIF(SLAM_P_P_EIGEN33)
 
 # compile for native architecture, might run faster (makes a potentially less portable binary)
 IF(UNIX AND NOT APPLE)
-	OPTION(SLAM_P_P_USE_MARCH_NATIVE "Use native architecture (-march=native)." TRUE)
+	OPTION(SLAM_P_P_USE_MARCH_NATIVE "Use native architecture (-march=armv6)." TRUE)
 	IF(SLAM_P_P_USE_MARCH_NATIVE)
-#                SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -march=native -std=c++11")
-#                SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -march=native -std=c++11")
-#                SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=native -std=c++11")
-#                SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native -std=c++11")
-#                SET(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -march=native -std=c++11")
-#                SET(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -march=native -std=c++11")
-#                SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -march=native -std=c++11")
-#                SET(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -march=native -std=c++11")
-SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -march=native")
-SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -march=native")
-SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=native")
-SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native")
-SET(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -march=native")
-SET(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -march=native")
-SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -march=native")
-SET(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -march=native")
+#                SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -march=armv6 -std=c++11")
+#                SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -march=armv6 -std=c++11")
+#                SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=armv6 -std=c++11")
+#                SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=armv6 -std=c++11")
+#                SET(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -march=armv6 -std=c++11")
+#                SET(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -march=armv6 -std=c++11")
+#                SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -march=armv6 -std=c++11")
+#                SET(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -march=armv6 -std=c++11")
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -march=armv6")
+SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -march=armv6")
+SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=armv6")
+SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=armv6")
+SET(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -march=armv6")
+SET(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -march=armv6")
+SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -march=armv6")
+SET(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -march=armv6")
 	ENDIF(SLAM_P_P_USE_MARCH_NATIVE)
 ELSE(UNIX AND NOT APPLE)
 	SET(SLAM_P_P_USE_MARCH_NATIVE FALSE)
@@ -246,8 +246,8 @@ IF(SLAM_P_P_USE_NEON)
 	    add_definitions("-DENABLE_SSE")
 	    MESSAGE("SSE flags: " ${SSE_FLAGS})
 	    # Optimized for Jetson TX2 only; refer to https://devtalk.nvidia.com/default/topic/1028179/jetson-tx2/gcc-options-for-tx2
-	    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flto -march=armv8-a+crypto -mcpu=cortex-a57+crypto ") 
-	    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -flto -march=armv8-a+crypto -mcpu=cortex-a57+crypto") 
+	    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -mcpu=arm1176jzf-s") 
+	    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}      -mcpu=arm1176jzf-s") 
 	ELSE(UNIX)
 		ADD_DEFINITIONS(-D__ARM_NEON)
 	ENDIF(UNIX)
@@ -259,7 +259,7 @@ IF(NOT SLAM_P_P_USE_MARCH_NATIVE) # explicit instruction sets only make sense if
 	SET(MSVC_ARCH_AVX_SET FALSE) # in MSVC, AVX rules out older instruction sets
 
 	IF(SLAM_P_P_EIGEN33)
-		OPTION(SLAM_P_P_USE_FMA "Use the FMA instructions (Eigen 3.3 only; may be implied by -march=native)." FALSE)
+		OPTION(SLAM_P_P_USE_FMA "Use the FMA instructions (Eigen 3.3 only; may be implied by -march=armv6)." FALSE)
 		mark_as_advanced(CLEAR SLAM_P_P_USE_FMA) # unhide
 		IF(SLAM_P_P_USE_FMA)
 			IF(UNIX)
@@ -276,7 +276,7 @@ IF(NOT SLAM_P_P_USE_MARCH_NATIVE) # explicit instruction sets only make sense if
 			ENDIF(UNIX)
 		ENDIF(SLAM_P_P_USE_FMA)
 
-		OPTION(SLAM_P_P_USE_AVX512 "Use the AVX512 instruction set (Eigen 3.3 only; experimental; may be implied by -march=native)." FALSE)
+		OPTION(SLAM_P_P_USE_AVX512 "Use the AVX512 instruction set (Eigen 3.3 only; experimental; may be implied by -march=armv6)." FALSE)
 		mark_as_advanced(CLEAR SLAM_P_P_USE_AVX512) # unhide
 		IF(SLAM_P_P_USE_AVX512)
 			IF(UNIX)
@@ -308,7 +308,7 @@ IF(NOT SLAM_P_P_USE_MARCH_NATIVE) # explicit instruction sets only make sense if
 			mark_as_advanced(FORCE SLAM_P_P_USE_AVX2)
 			mark_as_advanced(FORCE SLAM_P_P_USE_AVX) # hide from the user but do not delete from cache
 		ELSE(SLAM_P_P_USE_AVX512)
-			OPTION(SLAM_P_P_USE_AVX2 "Use the AVX2 instruction set (Eigen 3.3 only; may be implied by -march=native)." FALSE)
+			OPTION(SLAM_P_P_USE_AVX2 "Use the AVX2 instruction set (Eigen 3.3 only; may be implied by -march=armv6)." FALSE)
 			mark_as_advanced(CLEAR SLAM_P_P_USE_AVX2) # unhide
 			IF(SLAM_P_P_USE_AVX2)
 				IF(UNIX)
@@ -335,7 +335,7 @@ IF(NOT SLAM_P_P_USE_MARCH_NATIVE) # explicit instruction sets only make sense if
 
 				mark_as_advanced(FORCE SLAM_P_P_USE_AVX) # hide from the user but do not delete from cache
 			ELSE(SLAM_P_P_USE_AVX2)
-				OPTION(SLAM_P_P_USE_AVX "Use the AVX instruction set (Eigen 3.3 only; may be implied by -march=native)." FALSE)
+				OPTION(SLAM_P_P_USE_AVX "Use the AVX instruction set (Eigen 3.3 only; may be implied by -march=armv6)." FALSE)
 				mark_as_advanced(CLEAR SLAM_P_P_USE_AVX) # unhide
 				IF(SLAM_P_P_USE_AVX)
 					IF(UNIX)
@@ -369,7 +369,7 @@ IF(NOT SLAM_P_P_USE_MARCH_NATIVE) # explicit instruction sets only make sense if
 	ENDIF(SLAM_P_P_EIGEN33)
 
 	# support SSE4 (good on Intel platforms)
-	OPTION(SLAM_P_P_USE_SSE4 "Use the SSE4 instruction set (may be implied by -march=native)." TRUE)
+	OPTION(SLAM_P_P_USE_SSE4 "Use the SSE4 instruction set (may be implied by -march=armv6)." TRUE)
 	mark_as_advanced(CLEAR SLAM_P_P_USE_SSE4) # unhide
 	IF(SLAM_P_P_USE_SSE4)
 		IF(UNIX)
@@ -391,7 +391,7 @@ IF(NOT SLAM_P_P_USE_MARCH_NATIVE) # explicit instruction sets only make sense if
 		mark_as_advanced(FORCE SLAM_P_P_USE_SSE3) # hide from the user but do not delete from cache
 	ELSE(SLAM_P_P_USE_SSE4)
 		# support SSE3 (good on Intel platforms)
-		OPTION(SLAM_P_P_USE_SSE3 "Use the SSE3 instruction set (may be implied by -march=native)." TRUE)
+		OPTION(SLAM_P_P_USE_SSE3 "Use the SSE3 instruction set (may be implied by -march=armv6)." TRUE)
 		mark_as_advanced(CLEAR SLAM_P_P_USE_SSE3) # unhide
 		IF(SLAM_P_P_USE_SSE3)
 			IF(UNIX)
@@ -526,8 +526,8 @@ ENDIF(UNIX)
 
 
 # customize armadillo dir
-set(ARMADILLO_INCLUDE_DIR /opt/armadillo/include)
-set(ARMADILLO_LIBRARIES /opt/armadillo/lib/libarmadillo.so)
+set(ARMADILLO_INCLUDE_DIR /home/stavrow/rpi/rootfs/opt/armadillo/include)
+set(ARMADILLO_LIBRARIES /home/stavrow/rpi/rootfs/opt/armadillo/lib/libarmadillo.so)
 MESSAGE("ARMADILLO libs: " ${ARMADILLO_LIBRARIES})
 
 

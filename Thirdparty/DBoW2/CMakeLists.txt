@@ -16,11 +16,11 @@ IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
     add_definitions("-DENABLE_SSE")
     MESSAGE("SSE flags: " ${SSE_FLAGS})
     # Optimized for Jetson TX2 only; refer to https://devtalk.nvidia.com/default/topic/1028179/jetson-tx2/gcc-options-for-tx2
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wall -O3 -ffast-math -flto -march=armv8-a+crypto -mcpu=cortex-a57+crypto")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -ffast-math -flto -march=armv8-a+crypto -mcpu=cortex-a57+crypto")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wall -O3 -ffast-math")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -ffast-math")
 ELSE()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wall -O3 -march=native ")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -march=native")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wall -O3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3")
 ENDIF()
 
 set(HDRS_DBOW2
