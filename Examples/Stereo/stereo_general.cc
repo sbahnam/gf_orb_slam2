@@ -219,11 +219,11 @@ int main(int argc, char **argv) {
 
         double tframe = vTimeStamp[ni];
 
-        if (time_rest < -FLAGS_budget_per_frame*1e-3 * 0.5) {
-            time_rest += FLAGS_budget_per_frame*1e-3;
-            cout << "Skip frame " << ni << endl;
-            continue ;
-        }
+        // if (time_rest < -FLAGS_budget_per_frame*1e-3 * 0.5) {
+        //     time_rest += FLAGS_budget_per_frame*1e-3;
+        //     cout << "Skip frame " << ni << endl;
+        //     continue ;
+        // }
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
@@ -249,11 +249,12 @@ int main(int argc, char **argv) {
         double ttrack = std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
 
         vTimesTrack[ni]=ttrack;
+        std::cout<<ttrack<<std::endl;
 
         // Wait to load the next frame
-        time_rest = FLAGS_budget_per_frame*1e-3 - ttrack;
-        if(time_rest > 0)
-            usleep(time_rest*1e6);
+        // time_rest = FLAGS_budget_per_frame*1e-3 - ttrack;
+        // if(time_rest > 0)
+        //     usleep(time_rest*1e6);
     }
 
     cout << "before calling SLAM.Shutdown !!!" << endl;
@@ -305,8 +306,10 @@ bool LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
                 vector<string> &vstrImageRight, vector<double> &vTimeStamps)
 {
     // setup image directories
-    string img_dir_l = strPathToSequence + "/cam0/data/";
-    string img_dir_r = strPathToSequence + "/cam1/data/";
+    string img_dir_l = strPathToSequence + "/image0/";
+    string img_dir_r = strPathToSequence + "/image0/";
+    cout<<img_dir_l<<endl;
+    cout<<img_dir_r<<endl;
 
     // get a sorted list of files in the img directories
     boost::filesystem::path img_dir_path_l(img_dir_l.c_str());
