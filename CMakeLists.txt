@@ -24,11 +24,11 @@ IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
     add_definitions("-DENABLE_SSE")
     MESSAGE("SSE flags: " ${SSE_FLAGS})
     # Optimized for Jetson TX2 only; refer to https://devtalk.nvidia.com/default/topic/1028179/jetson-tx2/gcc-options-for-tx2
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wl,--no-as-needed -pthread -fopenmp -Wall -O3 -ffast-math -flto -march=armv8-a+crypto -mcpu=cortex-a57+crypto")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--no-as-needed -pthread -fopenmp -Wall -O3 -ffast-math -flto -march=armv8-a+crypto -mcpu=cortex-a57+crypto")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wl,--no-as-needed -pthread -fopenmp -Wall -O3 -mcpu=arm1176jzf-s")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--no-as-needed -pthread -fopenmp -Wall -O3 -mcpu=arm1176jzf-s")
 ELSE()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wl,--no-as-needed -pthread -fopenmp -Wall -O3 -march=native ")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--no-as-needed -pthread -fopenmp -Wall -O3 -march=native")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wl,--no-as-needed -pthread -fopenmp -Wall -O3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--no-as-needed -pthread -fopenmp -Wall -O3")
 ENDIF()
 
 # Add CUDA support
@@ -105,12 +105,13 @@ LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 #     find_package(OpenCV 3.4.0 REQUIRED)
 # endif()
 find_package(OpenCV 3.4.1 REQUIRED
-                 PATHS /opt/opencv3
+                 PATHS /home/stavrow/rpi/rootfs/opt/opencv3
                  NO_DEFAULT_PATH)
-    
+MESSAGE("OpenCV include dir: " ${OpenCV_INCLUDE_DIRS}) 
+   
 # customize eigen dir
 # find_package(Eigen3 3.1.0 REQUIRED)
-set( EIGEN3_INCLUDE_DIR /opt/eigen33/include/eigen3/ )
+set( EIGEN3_INCLUDE_DIR /home/stavrow/rpi/rootfs/usr/local/include/eigen3/ )
 # set( EIGEN3_INCLUDE_DIR /usr/include/eigen3 )
 MESSAGE("EIGEN include dir: " ${EIGEN3_INCLUDE_DIR})
 # MESSAGE("EIGEN libs: " ${EIGEN3_LIBS})
@@ -118,22 +119,22 @@ MESSAGE("EIGEN include dir: " ${EIGEN3_INCLUDE_DIR})
 # customize pangolin dir
 # set(Pangolin_DIR /opt/Pangolin/lib/cmake/Pangolin/)
 # find_package(Pangolin REQUIRED)
-set(Pangolin_INCLUDE_DIRS /opt/Pangolin/include/)
-set(Pangolin_LIBRARIES /opt/Pangolin/lib/libpangolin.so)
+set(Pangolin_INCLUDE_DIRS /home/stavrow/rpi/rootfs/usr/local/include/)
+set(Pangolin_LIBRARIES /home/stavrow/rpi/rootfs/usr/local/lib/libpangolin.so)
 MESSAGE("Pangolin include dir: " ${Pangolin_INCLUDE_DIRS})
 
 # customize openblas dir
-set(OpenBLAS_LIBRARIES /opt/OpenBLAS/lib/libopenblas.so)
+set(OpenBLAS_LIBRARIES /home/stavrow/rpi/rootfs/opt/OpenBLAS/lib/libopenblas.so)
 MESSAGE("OpenBLAS libs:" ${OpenBLAS_LIBRARIES})
 
 # customize armadillo dir
-set(ARMADILLO_INCLUDE_DIR /opt/armadillo/include)
-set(ARMADILLO_LIBRARIES /opt/armadillo/lib/libarmadillo.so)
+set(ARMADILLO_INCLUDE_DIR /home/stavrow/rpi/rootfs/opt/armadillo/include)
+set(ARMADILLO_LIBRARIES /home/stavrow/rpi/rootfs/opt/armadillo/lib/libarmadillo.so)
 MESSAGE("ARMADILLO libs: " ${ARMADILLO_LIBRARIES})
 
 # customize gtest dir
-set(GTest_INCLUDE_DIR /usr/src/gtest/src)
-set(GTest_LIBRARIES /usr/src/gtest/libgtest.a)
+set(GTest_INCLUDE_DIR /home/stavrow/rpi/rootfs/usr/src/gtest/src)
+set(GTest_LIBRARIES /home/stavrow/rpi/rootfs/usr/lib/arm-linux-gnueabihf/libgtest.a)
 MESSAGE("gtest libs: " ${GTest_LIBRARIES})
 
 # GFlags
@@ -142,6 +143,7 @@ MESSAGE("gflags include dirs: " ${GFLAGS_INCLUDE_DIR})
 
 find_package(Boost  REQUIRED COMPONENTS thread system filesystem)
 MESSAGE("Boost include dirs: " ${Boost_INCLUDE_DIRS})
+MESSAGE("Boost Boost_LIBRARIES: " ${Boost_LIBRARIES})
 
 
 
@@ -195,9 +197,9 @@ if(ENABLE_CUDA_IN_OPENCV)
       src/cuda/Cuda.cu
       ${PROJECT_SOURCE_DIR}/Thirdparty/SLAM++/src/good_graph_testbed/BAOptimizer.cpp
     )
-    IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
-        cuda_add_library(${PROJECT_NAME} ${ORB_LIB_TYPE} src/FAST_NEON.cc)
-    ENDIF()
+    #IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
+    #    cuda_add_library(${PROJECT_NAME} ${ORB_LIB_TYPE} src/FAST_NEON.cc)
+    #ENDIF()
 else()
     set(SRCS
         include/Util.hpp
@@ -223,9 +225,9 @@ else()
         src/Viewer.cc
         ${PROJECT_SOURCE_DIR}/Thirdparty/SLAM++/src/good_graph_testbed/BAOptimizer.cpp
     )
-    IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
-        set(SRCS ${SRCS} src/FAST_NEON.cc)
-    ENDIF()
+    #IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
+    #    set(SRCS ${SRCS} src/FAST_NEON.cc)
+    #ENDIF()
     add_library(${PROJECT_NAME} ${ORB_LIB_TYPE} ${SRCS})
 endif()
 
