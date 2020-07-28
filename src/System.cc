@@ -148,6 +148,7 @@ cv::Mat System::TrackStereo(const cv::Mat &imLeft, const cv::Mat &imRight, const
         if (mbActivateLocalizationMode)
         {
             mpLocalMapper->RequestStop();
+            cout<<"request stop of local mapper"<<endl;
 
             // Wait until Local Mapping has effectively stopped
             while (!mpLocalMapper->isStopped())
@@ -171,6 +172,7 @@ cv::Mat System::TrackStereo(const cv::Mat &imLeft, const cv::Mat &imRight, const
         unique_lock<mutex> lock(mMutexReset);
         if (mbReset)
         {
+            cout<<"check reset"<<endl;
             mpTracker->Reset();
             mbReset = false;
         }

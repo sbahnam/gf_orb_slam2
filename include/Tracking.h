@@ -67,7 +67,7 @@ using namespace Eigen;
 
 /* --- options of baseline methods --- */
 // #define ORB_SLAM_BASELINE
-#define DISABLE_RELOC
+// #define DISABLE_RELOC
 
 /* --- options of key-frame insert condition --- */
 // #define SPARSE_KEYFRAME_COND
@@ -103,7 +103,7 @@ using namespace Eigen;
     #define MATRIX_BUDGET_PREDICT   0.002
 
     // For low-power devices with 2-cores, disable multi-thread matrix building
-    #define USE_MULTI_THREAD        true // false //
+    #define USE_MULTI_THREAD        false // false //
 
 #endif
 

@@ -249,7 +249,7 @@ int main(int argc, char **argv) {
         double ttrack = std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
 
         vTimesTrack[ni]=ttrack;
-        std::cout<<ttrack<<std::endl;
+        cout<<ttrack<<endl;
 
         // Wait to load the next frame
         // time_rest = FLAGS_budget_per_frame*1e-3 - ttrack;
@@ -308,8 +308,6 @@ bool LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
     // setup image directories
     string img_dir_l = strPathToSequence + "/image_0/";
     string img_dir_r = strPathToSequence + "/image_0/";
-    cout<<img_dir_l<<endl;
-    cout<<img_dir_r<<endl;
 
     // get a sorted list of files in the img directories
     boost::filesystem::path img_dir_path_l(img_dir_l.c_str());

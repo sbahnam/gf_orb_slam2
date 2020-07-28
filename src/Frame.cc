@@ -93,13 +93,15 @@ Frame::Frame(const cv::Mat &imLeft, const cv::Mat &imRight, const double &timeSt
     if (mvKeys.empty())
         return;
 
-    //    cout << "number of keypoints detected: left = " << mvKeys.size() << "; right = " << mvKeysRight.size() << endl;
+       cout << "number of keypoints detected: left = " << mvKeys.size() << "; right = " << mvKeysRight.size() << endl;
 
 #ifdef ALTER_STEREO_MATCHING
     //
+    cout<<"UndistortKeyPointsStereo()"<<endl;
     UndistortKeyPointsStereo();
 
 #ifndef DELAYED_STEREO_MATCHING
+    cout<<"ComputeStereoMatches_Undistorted(false)"<<endl;
     ComputeStereoMatches_Undistorted(false);
 #endif
 
@@ -107,6 +109,7 @@ Frame::Frame(const cv::Mat &imLeft, const cv::Mat &imRight, const double &timeSt
 
     //    UndistortKeyPoints();
     mvKeysUn = mvKeys;
+    cout<<"ComputeStereoMatches"<<endl;
     ComputeStereoMatches();
 
 #endif
@@ -744,10 +747,15 @@ void Frame::ComputeBoW()
 
 void Frame::UndistortKeyPointsStereo()
 {
+    cout << "mK = " << mK << endl;
+    cout << "mDistCoef = " << mDistCoef << endl;
+    cout << "mR = " << mR << endl;
+    cout << "mP = " << mP << endl;
     if (mDistCoef.at<float>(0) == 0.0)
     {
         mvKeysUn = mvKeys;
         mvKeysRightUn = mvKeysRight;
+        cout<<"returning immedaitely"<<endl;
         return;
     }
 
@@ -1092,6 +1100,7 @@ void Frame::ComputeStereoMatches()
             IL = IL - IL.at<float>(w, w) * cv::Mat::ones(IL.rows, IL.cols, CV_32F);
 
             int bestDist = INT_MAX;
+            // cout<<"bestDist"<< bestDist<<",  INT_MAX"<<INT_MAX<<endl;
             int bestincR = 0;
             const int L = 5;
             vector<float> vDists;
@@ -1114,11 +1123,14 @@ void Frame::ComputeStereoMatches()
                 IR = IR - IR.at<float>(w, w) * cv::Mat::ones(IR.rows, IR.cols, CV_32F);
 
                 float dist = cv::norm(IL, IR, cv::NORM_L1);
-                if (dist < bestDist)
+                // cout<<"bestDist"<< bestDist<<",  dist"<<dist<<endl;
+                
+            if (dist < bestDist && dist!=0)
                 {
                     bestDist = dist;
                     bestincR = incR;
                 }
+            //    cout<<"bestDist"<< bestDist<<",  dist"<<dist<<endl;
 
                 vDists[L + incR] = dist;
             }
@@ -1140,6 +1152,7 @@ void Frame::ComputeStereoMatches()
             float bestuR = mvScaleFactors[kpL.octave] * ((float)scaleduR0 + (float)bestincR + deltaR);
 
             float disparity = (uL - bestuR);
+            // cout<<"uL: "<< uL<< ",  bestuR:"<<bestuR<<endl;
 
             if (disparity >= minD && disparity < maxD)
             {
@@ -1149,8 +1162,11 @@ void Frame::ComputeStereoMatches()
                     bestuR = uL - 0.01;
                 }
                 mvDepth[iL] = mbf / disparity;
+                // cout<<"mbf: "<< mbf<< ",  disparity:"<<disparity<<",  mvdep: "<<mvDepth[iL]<<endl;
+
                 mvuRight[iL] = bestuR;
                 vDistIdx.push_back(pair<int, int>(bestDist, iL));
+                // cout<<"bestDist: "<< bestDist<< ",  iL:"<<iL<<endl;
             }
         }
     }
@@ -1160,6 +1176,9 @@ void Frame::ComputeStereoMatches()
     const float median = vDistIdx[vDistIdx.size() / 2].first;
     const float thDist = 1.5f * 1.4f * median;
 
+    // cout<<"median is: "<<median<<endl;
+    // cout<<"thDist is: "<<thDist<<endl;
+    // cout<<"vDistIdx.size() is: "<<vDistIdx.size()<<endl;
     for (int i = vDistIdx.size() - 1; i >= 0; i--)
     {
         if (vDistIdx[i].first < thDist)

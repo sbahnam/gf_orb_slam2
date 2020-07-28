@@ -19,7 +19,7 @@ SeqNameList = ['03'];
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_Covis_Stereo_preP_Speedx'
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_BaseBA_Stereo_preP_Speedx'
 
-Result_root = '/home/pi/results_gf_orbslam/'
+Result_root = '/home/pi/results_gf_orbslam/KITTI/'
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_SWF_Stereo_Speedx'
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_Covis_Stereo_Speedx'
 # Result_root = '/mnt/DATA/tmp/EuRoC/GF_BaseBA_Stereo_Speedx'
@@ -100,7 +100,7 @@ for pi, rate in enumerate(Playback_Rate_List):
                     + '--path_to_track ' + File_traj + ' ' \
                     + '--path_to_map ' + File_map + ' ' \
                     + '--constr_per_frame ' + str(int(num_gf)*2) + ' ' \
-                    + '--budget_per_frame ' + str(int(100/rate + 0.5)));
+                    + '--budget_per_frame ' + str(int(10000/rate + 0.5)));
 
                 # make dir for detection I/O
                 # cmd_mkdir = 'mkdir ' + Path_Image + '/cam0/kpt'

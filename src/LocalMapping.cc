@@ -312,6 +312,7 @@ void LocalMapping::ProcessNewKeyFrame()
 
     // Associate MapPoints to the new keyframe and update normal and descriptor
     const vector<MapPoint *> vpMapPointMatches = mpCurrentKeyFrame->GetMapPointMatches();
+    cout<<"vpMapPointMatches size are: "<<vpMapPointMatches.size()<<endl;
 
     for (size_t i = 0; i < vpMapPointMatches.size(); i++)
     {
@@ -328,12 +329,20 @@ void LocalMapping::ProcessNewKeyFrame()
                     //                    cout << "after add obs: " << pMP->GetReferenceKeyFrame() << endl;
                     pMP->UpdateNormalAndDepth();
                     pMP->ComputeDistinctiveDescriptors();
+                    cout<<"not the case"<<endl;
                 }
                 else // this can only happen for new stereo points inserted by the Tracking
                 {
+                    // cout<<"track adds points"<<endl;
                     mlpRecentAddedMapPoints.push_back(pMP);
                 }
             }
+            else{
+                cout<<"pmp is bad"<<endl;
+            }
+        }
+        else{
+            // cout<<"PMP is false, pMP is:"<<pMP<<endl;
         }
     }
 
@@ -365,8 +374,10 @@ void LocalMapping::MapPointCulling()
         nThObs = 3;
     const int cnThObs = nThObs;
 
+    int test = 0;
     while (lit != mlpRecentAddedMapPoints.end())
     {
+        test++;
         MapPoint *pMP = *lit;
         if (pMP->isBad())
         {
@@ -388,6 +399,7 @@ void LocalMapping::MapPointCulling()
             lit++;
     }
 
+    cout<<"test int is"<<test<<endl;
 #ifdef LOCAL_BA_TIME_LOGGING
     logCurrentKeyFrame.time_culling = timer.toc();
 #endif
@@ -427,6 +439,7 @@ void LocalMapping::CreateNewMapPoints()
     int nnew = 0;
 
     // Search matches with epipolar restriction and triangulate
+    cout<<"Here we check epipolar thing with size of"<<vpNeighKFs.size()<<endl;
     for (size_t i = 0; i < vpNeighKFs.size(); i++)
     {
         if (i > 0 && CheckNewKeyFrames())

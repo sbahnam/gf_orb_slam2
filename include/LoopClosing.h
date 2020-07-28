@@ -33,7 +33,7 @@
 #include <mutex>
 #include "Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h"
 
-#define DISABLE_LOOP_CLOSURE
+// #define DISABLE_LOOP_CLOSURE
 
 namespace ORB_SLAM2
 {

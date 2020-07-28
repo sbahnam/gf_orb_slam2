@@ -931,6 +931,7 @@ int ORBmatcher::SearchForTriangulation(KeyFrame *pKF1, KeyFrame *pKF2, cv::Mat F
         vMatchedPairs.push_back(make_pair(i, vMatches12[i]));
     }
 
+    cout<<"nmatches are here: "<<nmatches<<endl;
     return nmatches;
 }
 

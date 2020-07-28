@@ -35,16 +35,16 @@
 // NOTE
 // as an alternative of stereo pipeline, undistort the keypoints and perform stereo matching
 // no image recitification is required, nor does the subpixel stereo refine is used
-#define ALTER_STEREO_MATCHING
+// #define ALTER_STEREO_MATCHING
 // only uncomment it for stereo pipeline
-#define DELAYED_STEREO_MATCHING
+// #define DELAYED_STEREO_MATCHING
 
 // For fisheye collected sequences such as TUM VI
 // #define USE_FISHEYE_DISTORTION
 
 // Reduction of disparity search range for map-matched points
 // for Hololens
-#define DISPARITY_THRES     50.0
+#define DISPARITY_THRES     150.0
 // for TUM VI & EuRoC
 //#define DISPARITY_THRES     20.0 // 10.0 // 5.0 // 40.0 //
 
