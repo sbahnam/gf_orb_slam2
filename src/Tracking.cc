@@ -652,9 +652,10 @@ void Tracking::Track()
                 {
                     timer_mod.tic();
                     bOK = TrackReferenceKeyFrame();
-                    //                    cout << "number of visible map at TrackReferenceKeyFrame: " << mNumVisibleMpt << endl;
+                                       cout << "number of visible map at TrackReferenceKeyFrame: " << mNumVisibleMpt << endl;
                     if (!bOK)
                         cout << "Track loss at func TrackReferenceKeyFrame !!!" << endl;
+                        cout<<"here1<<"<<endl;
                     logCurrentFrame.time_track_frame = timer_mod.toc();
                 }
                 else
@@ -1093,10 +1094,13 @@ void Tracking::StereoInitialization()
         // Insert KeyFrame in the map
         mpMap->AddKeyFrame(pKFini);
 
+        int count_fails = 0;
         // Create MapPoints and asscoiate to KeyFrame
+        cout<<"mCurrentFrame.N: "<<mCurrentFrame.N<<endl;
         for (int i = 0; i < mCurrentFrame.N; i++)
         {
             float z = mCurrentFrame.mvDepth[i];
+            cout<<z<<endl;
             if (z > 0)
             {
                 //                cout << "Found one valid map point with z = " << z << endl;
@@ -1111,10 +1115,13 @@ void Tracking::StereoInitialization()
 
                 mCurrentFrame.mvpMapPoints[i] = pNewMP;
             }
+            else{
+                count_fails++;
+            }
         }
 
         cout << "New map created with " << mpMap->MapPointsInMap() << " points" << endl;
-
+        cout << "Faild nr of points are: "<<count_fails<<endl; 
         mpLocalMapper->InsertKeyFrame(pKFini);
 
         mLastFrame = Frame(mCurrentFrame);
@@ -1352,6 +1359,7 @@ bool Tracking::TrackReferenceKeyFrame()
     mNumVisibleMpt = mpReferenceKF->GetMatchNum();
 #endif
     int nmatches = matcher.SearchByBoW(mpReferenceKF, mCurrentFrame, vpMapPointMatches);
+    cout<<"nmatches here are: "<<nmatches<<endl;
 
     double time_stereo = 0;
 #ifdef DELAYED_STEREO_MATCHING
@@ -1395,6 +1403,7 @@ bool Tracking::TrackReferenceKeyFrame()
 
     logCurrentFrame.lmk_num_frame = nmatches;
 
+    cout<<"nmatchesMap here are: "<<nmatchesMap<<endl;
     return nmatchesMap >= 10;
 }
 

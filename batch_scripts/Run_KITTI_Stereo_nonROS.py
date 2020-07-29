@@ -32,7 +32,7 @@ Playback_Rate_List = [1.0]; # [1.0, 3.0, 5.0] #
 # Number_GF_List = [600, 800, 1000, 1500]; # [200, 300, 400, 600, 800, 1000, 1500, 2000]; # [2000]; # 
 
 # Optimal param for GF
-Number_GF_List = [130]; # [160]; 
+Number_GF_List = [250]; # [160]; 
 # Number_GF_List = [80, 100, 130, 160]; # [80, 100, 130, 160, 200, 240, 280, 320, 360]; #  
 
 Num_Repeating = 1 # 1 # 

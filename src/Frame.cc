@@ -1028,6 +1028,8 @@ void Frame::ComputeStereoMatches()
     vector<pair<int, int>> vDistIdx;
     vDistIdx.reserve(N);
 
+    int count_dist_fails = 0;
+    cout<< " Total of number N:" <<N<<endl;
     for (int iL = 0; iL < N; iL++)
     {
         const cv::KeyPoint &kpL = mvKeys[iL];
@@ -1169,6 +1171,9 @@ void Frame::ComputeStereoMatches()
                 // cout<<"bestDist: "<< bestDist<< ",  iL:"<<iL<<endl;
             }
         }
+        else{
+            count_dist_fails++;
+        }
     }
     //    cout << endl;
 
@@ -1176,9 +1181,11 @@ void Frame::ComputeStereoMatches()
     const float median = vDistIdx[vDistIdx.size() / 2].first;
     const float thDist = 1.5f * 1.4f * median;
 
+    cout<<"count_dist_fails: "<<count_dist_fails<<endl;
     // cout<<"median is: "<<median<<endl;
     // cout<<"thDist is: "<<thDist<<endl;
     // cout<<"vDistIdx.size() is: "<<vDistIdx.size()<<endl;
+    int count2 = 0;
     for (int i = vDistIdx.size() - 1; i >= 0; i--)
     {
         if (vDistIdx[i].first < thDist)
@@ -1187,8 +1194,12 @@ void Frame::ComputeStereoMatches()
         {
             mvuRight[vDistIdx[i].second] = -1;
             mvDepth[vDistIdx[i].second] = -1;
+            count2++;
         }
     }
+    cout<<"count2 is: "<<count2<<endl;
+    cout<<"mvDepth size: "<<mvDepth.size()<<endl;
+    
 }
 
 bool Frame::ComputeStereoMatch_OnePoint(const int iL, const int thOrbDist, const float minD, const float maxD)
