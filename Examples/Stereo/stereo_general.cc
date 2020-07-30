@@ -307,7 +307,7 @@ bool LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
 {
     // setup image directories
     string img_dir_l = strPathToSequence + "/image_0/";
-    string img_dir_r = strPathToSequence + "/image_0/";
+    string img_dir_r = strPathToSequence + "/image_1/";
     cout<<img_dir_l<<endl;
     cout<<img_dir_r<<endl;
 
